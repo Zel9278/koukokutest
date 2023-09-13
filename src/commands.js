@@ -90,9 +90,13 @@ module.exports = {
                 `| Bot Name: ${package.name}`,
                 `| Bot Author: ${package.author.name}( ${package.author.url} )`,
                 `| Bot Prefix: ${msg.bot.prefix}`,
-                `| Node.js: ${process.version} on ${process.platform}`,
                 `| Bot Version: ${package.version}`,
                 "| Bot URL: https://koukoku.c30.life",
+                `| Node.js: ${process.version} on ${process.platform}`,
+                `| Bot Repository: https://github.com/${package.repository.url.replace(
+                    "git+git@github.com:",
+                    ""
+                )}`,
                 "",
                 "- コマンドリスト",
                 ...Object.keys(module.exports)
@@ -103,6 +107,7 @@ module.exports = {
                     .sort()
                     .map((c) => c),
                 "以上のコマンドが使用できます。",
+                "",
                 "- メッセージに反応するもの",
                 ...Object.keys(handleMessages)
                     .map((m) => `| ${m} - ${handleMessages[m].description}`)
