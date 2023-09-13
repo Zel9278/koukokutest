@@ -1,6 +1,6 @@
 const child_process = require("child_process")
 const package = require("../package.json")
-const messageHandler = require("./messageHandler.js")
+const handleMessages = require("./handleMessages.js")
 
 module.exports = {
     アドレス: {
@@ -104,8 +104,8 @@ module.exports = {
                     .map((c) => c),
                 "以上のコマンドが使用できます。",
                 "- メッセージに反応するもの",
-                ...Object.keys(messageHandler)
-                    .map((m) => `| ${m} - ${messageHandler[m].description}`)
+                ...Object.keys(handleMessages)
+                    .map((m) => `| ${m} - ${handleMessages[m].description}`)
                     .sort()
                     .map((c) => c),
                 "以上のメッセージに反応するものが使用できます。",

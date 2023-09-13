@@ -11,7 +11,7 @@ const jihou = require("./jihou.js")
 class bot {
     constructor() {
         this.commands = require("./commands.js")
-        this.messageHandler = require("./messageHandler.js")
+        this.handleMessages = require("./handleMessages.js")
         this.messages = require("./data/messages.json")
         this.webServer = new webServer(this)
         this.connected = false
@@ -47,8 +47,8 @@ class bot {
 
             if (messageData.isMe) return
 
-            if (Object.keys(this.messageHandler).includes(messageData.text)) {
-                this.messageHandler[messageData.text].exec({
+            if (Object.keys(this.handleMessages).includes(messageData.text)) {
+                this.handleMessages[messageData.text].exec({
                     bot: this,
                     ...messageData,
                 })

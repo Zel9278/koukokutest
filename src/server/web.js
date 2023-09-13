@@ -20,9 +20,19 @@ class webServer {
         this.app.set("views", path.join(__dirname, "../views"))
 
         this.app.get("/", (req, res) => {
-            res.send(
-                'telnet koukoku.shadan.open.ad.jpに接続してください。<br><a href="/messages">メッセージリストは権利的などの問題から廃止されました。</a><br><a href="/commands">コマンドリストが利用できます。</a>'
+            const commands = Object.keys(this.bot.commands).map((c) => ({
+                name: c,
+                description: this.bot.commands[c].description,
+            }))
+
+            const handleMessages = Object.keys(this.bot.handleMessages).map(
+                (c) => ({
+                    name: c,
+                    description: this.bot.handleMessages[c].description,
+                })
             )
+
+            res.render("index", { commands, handleMessages })
         })
 
         /*this.app.get('/messages', (req, res) => {
