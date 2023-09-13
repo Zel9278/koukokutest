@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Commands</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table {
+                border-collapse: collapse;
+            }
+
+            th,
+            td {
+                border: 1px #333 solid;
+                padding: 0 5px;
+            }
+
+            th {
+                background-color: #bfe9d2;
+            }
+        </style>
+    </head>
+    <body>
+        <p>コマンドリスト</p>
+        <table>
+            <tr>
+                <th>コマンド</th>
+                <th>説明</th>
+            </tr>
+            <% commands.forEach((value, key) => { %>
+            <tr>
+                <td><%= value.name %></td>
+                <td><%= value.description %></td>
+            </tr>
+            <% }); %>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Messages</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            .title {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 0;
+                margin: 0;
+                background-color: #c7c7c7;
+            }
+
+            .messages {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                overflow: auto;
+                height: calc(100vh - 100px);
+            }
+
+            .message {
+                display: flex;
+                flex-direction: column;
+                border: solid 2px #e1e3e8;
+                background-color: #e7e7e7;
+                padding: 1em;
+                margin: 1em 0;
+            }
+
+            .top {
+                display: flex;
+            }
+
+            .address {
+                margin-right: 1em;
+            }
+        </style>
+
+        <script>
+            let client, messages, status
+
+            document.addEventListener("DOMContentLoaded", () => {
+                messages = document.querySelector(".messages")
+                status = document.getElementById("status")
+                scrollToBottom("messages")
+
+                initWebSocket()
+            })
+
+            function initWebSocket() {
+                client = new WebSocket(`wss://${location.host}`)
+
+                client.onopen = () => {
+                    console.log("Connected to server")
+                    status.innerText = "Status: connected"
+                }
+
+                client.onmessage = (message) => {
+                    const data = JSON.parse(message.data)
+
+                    const template = `
+                        <li class="message">
+                            <div class="top">
+                                <p class="address">${data.address}</p>
+                                <p class="date">${data.date} (${data.day}) ${data.time}</p>
+                            </div>
+                            <p class="content">${data.text}</p>
+                        </li>
+                    `
+
+                    if (messages.children.length >= 50) {
+                        messages.children.item(0).remove()
+                    }
+
+                    messages.insertAdjacentHTML("beforeend", template)
+                    scrollToBottom("messages")
+                }
+
+                client.onclose = () => {
+                    console.log("Connection closed")
+                    status.innerText = "Status: disconnected"
+                    initWebSocket()
+                }
+            }
+
+            function scrollToBottom() {
+                var div = document.querySelector(".messages")
+                div.scrollTop = div.scrollHeight - div.clientHeight
+            }
+        </script>
+    </head>
+
+    <body>
+        <div class="title">
+            <h1>Messages</h1>
+        </div>
+        <div>
+            <ul class="messages">
+                <% messages.slice(-50).forEach(message => { %>
+                <li class="message">
+                    <div class="top">
+                        <p class="address"><%= message.address %></p>
+                        <p class="date">
+                            <%= message.date %> (<%= message.day %>) <%=
+                            message.time %>
+                        </p>
+                    </div>
+                    <p class="content"><%= message.text %></p>
+                </li>
+                <% }) %>
+            </ul>
+            <p id="status">Status: disconnected</p>
+        </div>
+    </body>
+</html>

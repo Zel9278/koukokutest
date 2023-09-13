@@ -1,0 +1,24 @@
+{
+    "name": "koukokutest",
+    "version": "1.10.8",
+    "description": "koukokutest",
+    "author": {
+        "name": "c30",
+        "url": "https://c30.life"
+    },
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "axios": "^1.5.0",
+        "dotenv": "^16.3.1",
+        "ejs": "^3.1.9",
+        "express": "^4.18.2",
+        "express-session": "^1.17.3",
+        "iconv-lite": "^0.6.3",
+        "moment-timezone": "^0.5.43",
+        "node-cron": "^3.0.2",
+        "ws": "^8.14.0"
+    }
+}
