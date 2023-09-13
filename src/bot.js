@@ -47,8 +47,16 @@ class bot {
 
             if (messageData.isMe) return
 
-            if (Object.keys(this.handleMessages).includes(messageData.text)) {
-                this.handleMessages[messageData.text].exec({
+            if (
+                Object.keys(this.handleMessages).find((c) =>
+                    messageData.text.includes(c)
+                )
+            ) {
+                const command = Object.keys(this.handleMessages).find((c) =>
+                    messageData.text.includes(c)
+                )
+
+                this.handleMessages[command].exec({
                     bot: this,
                     ...messageData,
                 })

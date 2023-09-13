@@ -17,7 +17,7 @@ module.exports = {
                 const match = msg?.text?.match(/ダイス (\d+)d(\d+)/)
                 if (!match)
                     return msg.bot.replySpeech(
-                        "Diceroll\nダイスの数と面数を指定してください、例は「ダイス 1d6」です。"
+                        `Diceroll\nダイスの数と面数を指定してください、例は「${msg.bot.prefix}ダイス 1d6」です。`
                     )
 
                 const [_, count, max] = match
