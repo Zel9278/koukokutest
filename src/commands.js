@@ -66,20 +66,23 @@ module.exports = {
             msg.bot.replySpeech(`[Bot] ${child.toString("utf-8")}`)
         },
     },
-    /*"バックログ": {
-        description: "バックログを表示します | 例: バックログ 10",
+    ログ: {
+        description: "ログを表示します | 例: ログ 10",
         exec(msg) {
-            const [_, count] = msg?.text?.match(/バックログ (\d+)/);
-            if (!count) return msg.bot.reply('[Bot] バックログの数を指定してください');
+            const [_, count] = msg?.text?.match(/ログ (\d+)/)
+            if (!count) return msg.bot.reply("[Bot] ログの数を指定してください")
 
-            const log = msg.bot.messages.slice(-parseInt(count, 10));
-            const text = log.map((l,i) => `「${l.text}」[${l.time} by ${l.address}]`).join('\n');
+            const log = msg.bot.messages.slice(-parseInt(count, 10))
+            const text = log
+                .map((l, i) => `|「${l.text}」[${l.time} by ${l.address}]`)
+                .join("\n")
 
-            if (text.split('\n').length > 30) return msg.bot.reply(`[Bot] バックログは30行までしか表示できません`);
+            if (text.split("\n").length > 30)
+                return msg.bot.reply(`[Bot] ログは30行までしか表示できません`)
 
-            msg.bot.replySpeech(text.normalize());
-        }
-    },*/
+            msg.bot.replySpeech(text.normalize())
+        },
+    },
     情報: {
         description: "コマンドリストを表示します",
         exec(msg) {

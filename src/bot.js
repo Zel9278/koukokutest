@@ -31,50 +31,52 @@ class bot {
 
             const shift_jis = iconv.decode(data, "Shift_JIS")
 
-            if (!shift_jis.includes(">> 「 ")) return
+            if (shift_jis.includes(">> 「 ")) {
+                console.log(`stdout: ${shift_jis.replace(/\n/g, "")}`)
 
-            console.log(`stdout: ${shift_jis.replace(/\n/g, "")}`)
+                const messageData = messageParser(shift_jis)
 
-            const messageData = messageParser(shift_jis)
-
-            if (!messageData) return
-            this.messages.push(messageData)
-            this.webServer.wsServer.broadcast(messageData)
-            fs.writeFileSync(
-                path.join(__dirname, "./data/messages.json"),
-                JSON.stringify(this.messages, null, 4)
-            )
-
-            if (messageData.isMe) return
-
-            if (
-                Object.keys(this.handleMessages).find((c) =>
-                    messageData.text.includes(c)
-                )
-            ) {
-                const command = Object.keys(this.handleMessages).find((c) =>
-                    messageData.text.includes(c)
+                if (!messageData) return
+                this.messages.push(messageData)
+                this.webServer.wsServer.broadcast(messageData)
+                fs.writeFileSync(
+                    path.join(__dirname, "./data/messages.json"),
+                    JSON.stringify(this.messages, null, 4)
                 )
 
-                this.handleMessages[command].exec({
-                    bot: this,
-                    ...messageData,
-                })
-                return
-            }
+                if (messageData.isMe) return
 
-            if (!messageData.text.startsWith(this.prefix)) return
+                if (
+                    Object.keys(this.handleMessages).find((c) =>
+                        messageData.text.includes(c)
+                    )
+                ) {
+                    const command = Object.keys(this.handleMessages).find((c) =>
+                        messageData.text.includes(c)
+                    )
 
-            const args = messageData.text
-                .slice(this.prefix.length)
-                .trim()
-                .split(/ +/)
-            const commandName = args.shift().toLowerCase()
-            const command = this.commands[commandName]
+                    this.handleMessages[command].exec({
+                        bot: this,
+                        ...messageData,
+                    })
+                    return
+                }
 
-            if (command) {
-                command.exec({ bot: this, ...messageData, args })
-                return
+                if (!messageData.text.startsWith(this.prefix)) return
+
+                const args = messageData.text
+                    .slice(this.prefix.length)
+                    .trim()
+                    .split(/ +/)
+                const commandName = args.shift().toLowerCase()
+                const command = this.commands[commandName]
+
+                if (command) {
+                    command.exec({ bot: this, ...messageData, args })
+                    return
+                }
+            } else {
+                console.log(`stdout: ${shift_jis.replace(/\n/g, "")}`)
             }
         })
 
