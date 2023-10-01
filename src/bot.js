@@ -96,7 +96,8 @@ class bot {
             this.connect()
         })
 
-        jihou(this)
+        this.jihou?.stop()
+        this.jihou = jihou(this)
     }
 
     reply(text) {
