@@ -10,7 +10,10 @@ module.exports = {
     いぬ: {
         description: "わんわん",
         exec(msg) {
-            msg.bot.reply("[Bot] わんわん")
+            const results = ["わんわん", "よん！"]
+            msg.bot.reply(
+                `[Bot] ${results[Math.floor(Math.random() * results.length)]}`
+            )
         },
     },
     今何時: {
