@@ -2,7 +2,7 @@ const moment = require("moment-timezone")
 const cron = require("node-cron")
 
 module.exports = (bot) => {
-    cron.schedule("0 0 * * * *", () => {
+    return cron.schedule("0 0 * * * *", () => {
         bot.reply(
             `[時報] ${moment()
                 .tz("Asia/Tokyo")
