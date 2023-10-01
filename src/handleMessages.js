@@ -28,6 +28,27 @@ module.exports = {
             )
         },
     },
+    後何時: {
+        description: "一日の終わりまでの時間を表示します",
+        exec(msg) {
+            if (!msg) return
+            const now = moment().tz("Asia/Tokyo")
+            const end = moment()
+                .tz("Asia/Tokyo")
+                .set({ date: now.date() + 1, hour: 0, minute: 0, second: 0 })
+
+            const diff = moment.duration(end.diff(now))
+            const percent = Math.floor(
+                (1 - diff.asMilliseconds() / 86400000) * 100
+            )
+
+            msg.bot.reply(
+                `[Bot] 日付が変わるまであと${Math.floor(
+                    diff.asHours()
+                )}時間${diff.minutes()}分${diff.seconds()}秒(${percent}%)です`
+            )
+        },
+    },
     ぬるぽ: {
         description: "ガッ",
         exec(msg) {
